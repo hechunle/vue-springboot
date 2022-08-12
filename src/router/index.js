@@ -4,6 +4,7 @@ import Login from "../components/components/Login";
 import AppIndex from "../components/components/home/AppIndex";
 import Home from "@/components/components/home/Home";
 import LibraryIndex from "@/components/components/library/LibraryIndex";
+import Articles from "@/components/components/jotter/Articles";
 
 Vue.use(Router);
 
@@ -14,15 +15,13 @@ export default new Router({
     {
       path:"/",
       redirect:"/login"
-    }/*,
+    },
     {
-      path:'/index',
-      component:AppIndex,
-      name:'AppIndex',
+      path:'/index.html',
       meta:{
         requireAuth:true
       }
-    }*/,{
+    },{
       path:"/login",
       name:'login',
       component:Login
@@ -43,6 +42,13 @@ export default new Router({
         path:'/library',
         name:'LibraryIndex',
         component:LibraryIndex,
+        meta:{
+          requireAuth:true
+        }
+      },{
+        path:'/jotter',
+        name:'Articles',
+        component:Articles,
         meta:{
           requireAuth:true
         }

@@ -2,10 +2,10 @@
   <el-form>
     <el-container>
       <el-header>登录</el-header>
-      <el-input placeholder="请输入用户名" v-model="loginFrom.userName" clearable></el-input>
-      <el-input placeholder="请输入密码" v-model="loginFrom.passWord"  show-password ></el-input>
+      <el-input placeholder="userName" v-model="loginFrom.userName" clearable></el-input>
+      <el-input placeholder="Password" v-model="loginFrom.passWord"  show-password ></el-input>
       <br>
-      <el-checkbox v-model="checked">记住密码</el-checkbox>
+      <el-checkbox v-model="checked" style="color: orange">Remember Password</el-checkbox>
       <el-footer>
         <el-button type="success" plain @click="login">login</el-button>
       </el-footer>

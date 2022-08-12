@@ -2,7 +2,7 @@ import Vue from "vue";
 import App from './App';
 import router from './router';
 import axios from "axios";
-import {Button,Input,Option,Select,Row,Container,Header,Main,Footer,Checkbox,Form,Menu,MenuItem,Aside,Switch,Tooltip,Card,Pagination} from "element-ui";
+import {Button,Input,Option,Select,Row,Container,Header,Main,Footer,Checkbox,Form,Menu,MenuItem,Aside,Switch,Tooltip,Card,Pagination,Divider,Image} from "element-ui";
 import 'element-ui/lib/theme-chalk/index.css';
 import store from "./store";
 
@@ -30,12 +30,14 @@ Vue.use(Switch)
 Vue.use(Tooltip)
 Vue.use(Card)
 Vue.use(Pagination)
+Vue.use(Divider)
+Vue.use(Image)
 
 
 
 router.beforeEach(((to, from, next) => {
-  if (to.meta.requireAuth){//index
-    console.log(from.toString()+"from"+to.toString()+"to")
+
+  if (to.meta.requireAuth){
     if (store.state.user.userName){
       next()
     }else {
