@@ -1,11 +1,12 @@
+
 <template>
   <div class="articles-area">
     <el-card style="text-align: left;width: 990px;margin: 35px auto 0 auto">
       <div>
-        <span style="font-size: 20px"><strong>{{article.articleTitle}}</strong></span>
-        <el-divider content-position="left">{{article.articleDate}}</el-divider>
+        <span style="font-size: 20px"><strong>{{article.title}}</strong></span>
+        <el-divider content-position="left">{{article.desc}}</el-divider>
         <div class="markdown-body">
-          <div v-html="article.articleContentHtml"></div>
+<a :href=article.url>来源</a>
         </div>
       </div>
     </el-card>
@@ -25,10 +26,14 @@ export default {
   },
   methods: {
     loadArticle () {
+      console.log(this.$route.query.id)
+      console.log(this.$route.query.url)
       var _this = this
-      this.$axios.get('/article/' + this.$route.query.id).then(resp => {
-        if (resp && resp.data.code === 200) {
-          _this.article = resp.data.result
+      this.$axios.get('https://api.vvhan.com/api/hotlist?type=baiduRD').then(resp => {
+        console.log(resp)
+        if (resp.status == 200) {
+          this.article=resp.data.data[this.$route.query.id-1]
+          console.log(this.article)
         }
       })
     }
@@ -37,5 +42,6 @@ export default {
 </script>
 
 <style scoped>
-@import "src/styles/markdown.css";
+/*@import '/aa/src/styles/markdown.css';*/
+@import '../../../../src/styles/markdown.css';
 </style>

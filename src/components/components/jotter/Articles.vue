@@ -3,13 +3,16 @@
     <!--<el-button @click="addArticle()">添加文章</el-button>-->
     <div class="articles-area">
       <el-card style="text-align: left">
-        <div v-for="article in articles" :key="article.index">
+        <div v-if="load">
+          加载中。。。
+        </div>
+        <div v-for="article in articles" :key="article.index" >
           <div style="float:left;width:85%;height: 150px;">
-            <router-link class="article-link" :to="{path:'jotter/article',query:{id: article.id}}"><span
+            <router-link class="article-link" :to="{path:'jotter/article',query:{id: article.index}}"><span
                 style="font-size: 20px"><strong>{{ article.title }}</strong></span></router-link>
-            <el-divider content-position="left">{{ article.desc }}</el-divider>
-            <router-link class="article-link" :to="{path:'jotter/article',query:{id: article.id}}"><p>
-              {{ article.articleAbstract }}</p></router-link>
+<!--            <el-divider content-position="left">{{ articles }}</el-divider>-->
+<!--            <router-link class="article-link" :to="{path:'jotter/article',query:{id: article.index,url:article.url}}"><p>-->
+<!--              {{ article.desc }}</p></router-link>-->
           </div>
           <el-image style="margin:18px 0 0 30px;width:100px;height: 100px" :src="article.pic"
               fit="cover"></el-image>
@@ -35,7 +38,8 @@ export default {
     return {
       articles:[],
       pageSize: 4,
-      total: 0
+      total: 0,
+      load:true
     }
   },
   mounted() {
@@ -43,23 +47,32 @@ export default {
   },
   methods: {
     loadArticles() {
+      var _this = this;
       this.$axios.get('https://api.vvhan.com/api/hotlist?type=baiduRD').then(resp => {
         if (resp.status == 200) {
-          this.total = resp.data.data.length
-          this.articles=resp.data.data
-          // this.articles.slice(0,5)
-
-          console.log(this.articles)
+          this.load=false
+           this.total = resp.data.data.length
+          for (let i = 0; i <this.pageSize ; i++) {
+            _this.articles.push(resp.data.data[i])
+          }
         }
       })
     },
     handleCurrentChange(page) {
-      console.log(page)
-      var _this = this
-      this.$axios.get('/article/' + this.pageSize + '/' + page).then(resp => {
-        if (resp && resp.data.code === 200) {
-          _this.articles = resp.data.result.content
-          // _this.total = resp.data.result.totalElements
+      this.$axios.get('https://api.vvhan.com/api/hotlist?type=baiduRD').then(resp => {
+        if (resp.status == 200) {
+         var size=0;
+          console.log(resp.data.data)
+          const index=(page-1)*this.pageSize
+          this.articles=[];
+          if (this.total/this.pageSize>page){
+           size=page*this.pageSize //8
+          }else {
+            size=this.total
+          }
+          for (let i = index; i <size ; i++) {
+            this.articles.push(resp.data.data[i])
+          }
         }
       })
     }
